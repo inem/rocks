@@ -1,34 +1,34 @@
 #!/bin/bash
 
-# Ищет make команды в удаленном репе и добавляет в локальный Makefile
-# Использование: curl -sSL <URL>/install.sh | sh -s "make deploy"
+# Searches for make commands in remote repo and adds them to local Makefile
+# Usage: curl -sSL <URL>/install.sh | sh -s "make deploy"
 # Updated: force cache invalidation
 
 REPO_URL="https://github.com/inem/makefiles.git"
 TEMP_DIR="/tmp/makefiles-$$"
 
 if [[ -n "$1" ]]; then
-    echo "🔍 Упавшая команда: $1"
+    echo "🔍 Failed command: $1"
 
-    # Извлекаем target из команды "make deploy" -> "deploy"
+    # Extract target from "make deploy" -> "deploy"
     target=$(echo "$1" | sed 's/^make[[:space:]]*//' | awk '{print $1}')
 
     if [[ -z "$target" ]]; then
-        echo "❌ Не удалось определить цель make"
+        echo "❌ Could not determine make target"
         exit 1
     fi
 
-    echo "📥 Клонирую репозиторий с makefiles..."
+    echo "📥 Cloning makefiles repository..."
 
-    # Клонируем репозиторий временно
+    # Clone repository temporarily
     if ! git clone --quiet "$REPO_URL" "$TEMP_DIR" 2>/dev/null; then
-        echo "❌ Не удалось клонировать репозиторий $REPO_URL"
+        echo "❌ Failed to clone repository $REPO_URL"
         exit 1
     fi
 
-    echo "🔍 Ищу команду '$target' в makefiles..."
+    echo "🔍 Searching for '$target' command in makefiles..."
 
-    # Ищем команду во всех *.mk файлах в клонированном репо
+    # Search for command in all *.mk files in cloned repo
     found_files=""
     for file in $(find "$TEMP_DIR" -name "*.mk" 2>/dev/null); do
         if grep -q "^$target:" "$file" 2>/dev/null; then
@@ -37,57 +37,57 @@ if [[ -n "$1" ]]; then
     done
 
     if [[ -z "$found_files" ]]; then
-        echo "❌ Команда '$target' не найдена в makefiles"
+        echo "❌ Command '$target' not found in makefiles"
         rm -rf "$TEMP_DIR"
         exit 1
     fi
 
-    echo "✅ Найдена команда '$target' в:"
+    echo "✅ Found '$target' command in:"
     for file in $found_files; do
         echo "  - $(basename "$file")"
     done
 
-    # Берем первый найденный файл
+    # Take first found file
     source_file=$(echo "$found_files" | awk '{print $1}')
 
-    # Извлекаем цель и её команды
+    # Extract target and its commands
     target_block=$(awk "/^$target:/{flag=1} flag && /^[^[:space:]]/ && !/^$target:/{flag=0} flag" "$source_file")
 
     if [[ -z "$target_block" ]]; then
-        echo "❌ Не удалось извлечь блок для '$target'"
+        echo "❌ Could not extract block for '$target'"
         rm -rf "$TEMP_DIR"
         exit 1
     fi
 
     echo ""
-    echo "📝 Найденный блок:"
+    echo "📝 Found block:"
     echo "$target_block"
     echo ""
 
-    # Проверяем есть ли локальный Makefile
+    # Check if local Makefile exists
     if [[ ! -f "./Makefile" ]]; then
-        echo "✅ Создаю локальный Makefile"
+        echo "✅ Creating local Makefile"
         touch "./Makefile"
     fi
 
-    # Проверяем есть ли уже такая цель в локальном Makefile
+    # Check if target already exists in local Makefile
     if grep -q "^$target:" "./Makefile" 2>/dev/null; then
-        echo "⚠️  Цель '$target' уже существует в локальном Makefile - пропускаю"
+        echo "⚠️  Target '$target' already exists in local Makefile - skipping"
         rm -rf "$TEMP_DIR"
         exit 0
     fi
 
-    # Добавляем новую цель
+    # Add new target
     echo "" >> "./Makefile"
     echo "$target_block" >> "./Makefile"
 
-    echo "✅ Команда '$target' добавлена в локальный Makefile"
-    echo "🚀 Теперь можно запустить: make $target"
+    echo "✅ Command '$target' added to local Makefile"
+    echo "🚀 Now you can run: make $target"
 
-    # Удаляем временный репозиторий
+    # Remove temporary repository
     rm -rf "$TEMP_DIR"
 
 else
-    echo "❌ Не передан аргумент"
+    echo "❌ No argument provided"
     exit 1
 fi

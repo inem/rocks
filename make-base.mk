@@ -1,3 +1,0 @@
-ARGS = $(filter-out $@,$(MAKECMDGOALS))
-%:
-	@:
