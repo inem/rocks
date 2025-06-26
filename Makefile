@@ -15,7 +15,7 @@ USER = "$(shell id -u):$(shell id -g)"
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 
 ARGS            = $(filter-out $@,$(MAKECMDGOALS))   # позволяет: make foo bar
-LAST_MISSING    = .last_missing_target
+LAST_MISSING    = .git/.last_missing_target
 
 .DEFAULT:
 	@if [ "$@" = "from" ] || [ "$@" = "it" ] || [ "$@" = "help" ]; then \
@@ -29,7 +29,7 @@ LAST_MISSING    = .last_missing_target
 it:
 	@if [ -f $(LAST_MISSING) ]; then \
 		target=$$(cat $(LAST_MISSING) | tr -d '\n'); \
-		curl -fsSL "https://raw.githubusercontent.com/inem/makefiles/refs/heads/main/install.sh" | bash -s "make $$target"; \
+		curl -fsSL "https://raw.githubusercontent.com/inem/makefiles/refs/heads/main/install.sh?$(date +%s)" | bash -s "make $$target"; \
 		rm -f $(LAST_MISSING); \
 	else \
 		echo "No info about last failed command"; \
