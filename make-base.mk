@@ -1,0 +1,3 @@
+ARGS = $(filter-out $@,$(MAKECMDGOALS))
+%:
+	@:
