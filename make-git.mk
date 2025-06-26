@@ -76,6 +76,6 @@ commit!:
 	git commit -m "..."
 	git push origin $(BRANCH)
 
-.:
+...:
 	git add .
 	git commit -m "..."
