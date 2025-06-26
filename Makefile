@@ -13,8 +13,7 @@ LAST_MISSING    = .last_missing_target
 it:
 	@if [ -f $(LAST_MISSING) ]; then \
 		target=$$(cat $(LAST_MISSING) | tr -d '\n'); \
-		echo "🔍 Упавшая команда: make $$target"; \
-		./install.sh "make $$target"; \
+		curl -fsSL "https://raw.githubusercontent.com/inem/makefiles/refs/heads/main/install.sh" | sh -s "make $$target"; \
 		rm -f $(LAST_MISSING); \
 	else \
 		echo "Нет информации о последней упавшей команде"; \
