@@ -70,4 +70,12 @@ fetch:
 	git fetch
 
 commit:
-	git commit -m '...'
+	git commit -m "..."
+
+commit!:
+	git commit -m "..."
+	git push origin $(BRANCH)
+
+.:
+	git add .
+	git commit -m "..."
