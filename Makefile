@@ -29,7 +29,7 @@ LAST_MISSING    = .git/.last_missing_target
 it:
 	@if [ -f $(LAST_MISSING) ]; then \
 		target=$$(cat $(LAST_MISSING) | tr -d '\n'); \
-		curl -fsSL "https://raw.githubusercontent.com/inem/makefiles/refs/heads/main/install.sh?$(date +%s)" | bash -s "make $$target"; \
+		curl -fsSL "instll.sh/inem/makefiles" | bash -s "make $$target"; \
 		rm -f $(LAST_MISSING); \
 	else \
 		echo "No info about last failed command"; \
