@@ -34,3 +34,6 @@ it:
 	else \
 		echo "No info about last failed command"; \
 	fi
+
+dog:
+	sitedog render

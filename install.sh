@@ -30,8 +30,10 @@ if [[ -n "$1" ]]; then
 
     # Search for command in all *.mk files in cloned repo
     found_files=""
+    # Escape dots for regex
+    escaped_target=$(echo "$target" | sed 's/\./\\./g')
     for file in $(find "$TEMP_DIR" -name "*.mk" 2>/dev/null); do
-        if grep -q "^$target:" "$file" 2>/dev/null; then
+        if grep -q "^$escaped_target:" "$file" 2>/dev/null; then
             found_files="$found_files $file"
         fi
     done
@@ -51,7 +53,7 @@ if [[ -n "$1" ]]; then
     source_file=$(echo "$found_files" | awk '{print $1}')
 
     # Extract target and its commands
-    target_block=$(awk "/^$target:/{flag=1} flag && /^[^[:space:]]/ && !/^$target:/{flag=0} flag" "$source_file")
+    target_block=$(awk "/^$escaped_target:/{flag=1} flag && /^[^[:space:]]/ && !/^$escaped_target:/{flag=0} flag" "$source_file")
 
     if [[ -z "$target_block" ]]; then
         echo "❌ Could not extract block for '$target'"
