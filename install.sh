@@ -85,31 +85,27 @@ if [[ -n "$1" ]]; then
         exit 0
     fi
 
+    # Add new target to Makefile first
+    echo "" >> "./Makefile"
+    echo "$target_block" >> "./Makefile"
+
+    echo "✅ Command '$target' added to local Makefile"
+
     if [[ "$EXECUTE" == "1" ]]; then
-        # Execute mode - run the command directly
+        # Execute mode - run the command directly after adding to Makefile
         echo "🚀 Executing command: $target"
         echo ""
 
-        # Create temporary Makefile with the target
-        temp_makefile="/tmp/temp_makefile_$$"
-        echo "$target_block" > "$temp_makefile"
-
-        # Execute the target
-        make -f "$temp_makefile" "$target"
+        # Execute the target from the local Makefile
+        make "$target"
         exit_code=$?
 
         # Cleanup
-        rm -f "$temp_makefile"
         rm -rf "$TEMP_DIR"
 
         exit $exit_code
     fi
 
-    # Add new target
-    echo "" >> "./Makefile"
-    echo "$target_block" >> "./Makefile"
-
-    echo "✅ Command '$target' added to local Makefile"
     echo "🚀 Now you can run: make $target"
 
     # Remove temporary repository
