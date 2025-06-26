@@ -49,14 +49,8 @@ if [[ -n "$1" ]]; then
         echo "  - $(basename "$file")"
     done
 
-    # Find the first file that actually contains the target
-    source_file=""
-    for file in $found_files; do
-        if grep -q "^$escaped_target:" "$file" 2>/dev/null; then
-            source_file="$file"
-            break
-        fi
-    done
+    # Take first found file (since we already verified it contains the target)
+    source_file=$(echo "$found_files" | awk '{print $1}')
 
     if [[ -z "$source_file" ]]; then
         echo "❌ Could not find file with target '$target'"
