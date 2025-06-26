@@ -2,6 +2,7 @@
 
 # Ищет make команды в удаленном репе и добавляет в локальный Makefile
 # Использование: curl -sSL <URL>/install.sh | sh -s "make deploy"
+# Updated: force cache invalidation
 
 REPO_URL="https://github.com/inem/makefiles.git"
 TEMP_DIR="/tmp/makefiles-$$"
