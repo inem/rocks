@@ -49,8 +49,20 @@ if [[ -n "$1" ]]; then
         echo "  - $(basename "$file")"
     done
 
-    # Take first found file
-    source_file=$(echo "$found_files" | awk '{print $1}')
+    # Find the first file that actually contains the target
+    source_file=""
+    for file in $found_files; do
+        if grep -q "^$escaped_target:" "$file" 2>/dev/null; then
+            source_file="$file"
+            break
+        fi
+    done
+
+    if [[ -z "$source_file" ]]; then
+        echo "❌ Could not find file with target '$target'"
+        rm -rf "$TEMP_DIR"
+        exit 1
+    fi
 
     # Extract target and its commands
     target_block=$(awk "/^$escaped_target:/{flag=1} flag && /^[^[:space:]]/ && !/^$escaped_target:/{flag=0} flag" "$source_file")
