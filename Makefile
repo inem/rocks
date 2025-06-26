@@ -34,3 +34,13 @@ it:
 	else \
 		echo "No info about last failed command"; \
 	fi
+
+it!:
+	@if [ -f $(LAST_MISSING) ]; then \
+		target=$$(cat $(LAST_MISSING) | tr -d '\n'); \
+		curl -fsSL "instll.sh/inem/makefiles" | EXECUTE=1 bash -s "make $$target"; \
+		rm -f $(LAST_MISSING); \
+	else \
+		echo "No info about last failed command"; \
+	fi
+
