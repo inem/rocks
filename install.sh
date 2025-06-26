@@ -28,26 +28,26 @@ if [[ -n "$1" ]]; then
     echo "🔍 Ищу команду '$target' в makefiles..."
 
     # Ищем команду во всех *.mk файлах в клонированном репо
-    found_files=()
-    while IFS= read -r -d '' file; do
+    found_files=""
+    for file in $(find "$TEMP_DIR" -name "*.mk" 2>/dev/null); do
         if grep -q "^$target:" "$file" 2>/dev/null; then
-            found_files+=("$file")
+            found_files="$found_files $file"
         fi
-    done < <(find "$TEMP_DIR" -name "*.mk" -print0 2>/dev/null)
+    done
 
-    if [[ ${#found_files[@]} -eq 0 ]]; then
+    if [[ -z "$found_files" ]]; then
         echo "❌ Команда '$target' не найдена в makefiles"
         rm -rf "$TEMP_DIR"
         exit 1
     fi
 
     echo "✅ Найдена команда '$target' в:"
-    for file in "${found_files[@]}"; do
+    for file in $found_files; do
         echo "  - $(basename "$file")"
     done
 
     # Берем первый найденный файл
-    source_file="${found_files[0]}"
+    source_file=$(echo "$found_files" | awk '{print $1}')
 
     # Извлекаем цель и её команды
     target_block=$(awk "/^$target:/{flag=1} flag && /^[^[:space:]]/ && !/^$target:/{flag=0} flag" "$source_file")
