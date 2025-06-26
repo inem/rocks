@@ -73,7 +73,7 @@ if [[ -n "$1" ]]; then
     fi
 
     # Check if target already exists in local Makefile
-    if grep -q "^$target:" "./Makefile" 2>/dev/null; then
+    if grep -q "^$escaped_target:" "./Makefile" 2>/dev/null; then
         echo "⚠️  Target '$target' already exists in local Makefile - skipping"
         rm -rf "$TEMP_DIR"
         exit 0
