@@ -14,7 +14,7 @@ IMAGE_TAG := latest
 USER = "$(shell id -u):$(shell id -g)"
 BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 
-ARGS            = $(filter-out $@,$(MAKECMDGOALS))   # позволяет: make foo bar
+ARGS            = $(filter-out $@,$(MAKECMDGOALS))   # allows: make foo bar
 LAST_MISSING    = .git/.last_missing_target
 
 .DEFAULT:
