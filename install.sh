@@ -8,7 +8,7 @@ REPO_URL="https://github.com/inem/makefiles.git"
 TEMP_DIR="/tmp/makefiles-$$"
 
 if [[ -n "$1" ]]; then
-    echo "🔍 Failed command: $1"
+    echo "💥 Failed command: $1"
 
     # Extract target from "make deploy" -> "deploy"
     target=$(echo "$1" | sed 's/^make[[:space:]]*//' | awk '{print $1}')
@@ -18,7 +18,7 @@ if [[ -n "$1" ]]; then
         exit 1
     fi
 
-    echo "📥 Cloning makefiles repository..."
+    echo "📥 Fetching latest makefiles..."
 
     # Clone repository temporarily
     if ! git clone --quiet "$REPO_URL" "$TEMP_DIR" 2>/dev/null; then
@@ -26,7 +26,7 @@ if [[ -n "$1" ]]; then
         exit 1
     fi
 
-    echo "🔍 Searching for '$target' command in makefiles..."
+    echo "🔍 Searching for '$target' command..."
 
     # Search for command in all *.mk files in cloned repo
     found_files=""
@@ -85,27 +85,31 @@ if [[ -n "$1" ]]; then
         exit 0
     fi
 
-    # Add new target to Makefile first
-    echo "" >> "./Makefile"
-    echo "$target_block" >> "./Makefile"
-
-    echo "✅ Command '$target' added to local Makefile"
-
     if [[ "$EXECUTE" == "1" ]]; then
-        # Execute mode - run the command directly after adding to Makefile
+        # Execute mode - run the command directly
         echo "🚀 Executing command: $target"
         echo ""
 
-        # Execute the target from the local Makefile
-        make "$target"
+        # Create temporary Makefile with the target
+        temp_makefile="/tmp/temp_makefile_$$"
+        echo "$target_block" > "$temp_makefile"
+
+        # Execute the target
+        make -f "$temp_makefile" "$target"
         exit_code=$?
 
         # Cleanup
+        rm -f "$temp_makefile"
         rm -rf "$TEMP_DIR"
 
         exit $exit_code
     fi
 
+    # Add new target
+    echo "" >> "./Makefile"
+    echo "$target_block" >> "./Makefile"
+
+    echo "✅ Command '$target' added to local Makefile"
     echo "🚀 Now you can run: make $target"
 
     # Remove temporary repository

@@ -38,9 +38,25 @@ it:
 it!:
 	@if [ -f $(LAST_MISSING) ]; then \
 		target=$$(cat $(LAST_MISSING) | tr -d '\n'); \
-		curl -fsSL "instll.sh/inem/makefiles" | EXECUTE=1 bash -s "make $$target"; \
+		EXECUTE=1 bash -c 'curl -fsSL "instll.sh/inem/makefiles" | bash -s "make '$$target'"'; \
 		rm -f $(LAST_MISSING); \
 	else \
 		echo "No info about last failed command"; \
 	fi
+
+...:
+	git add .
+	git commit -m "..."
+
+dog:
+	sitedog render
+
+sniff:
+	sitedog sniff
+
+dog-push:
+	sitedog push
+
+uncommit:
+	git reset --soft HEAD^
 
