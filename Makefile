@@ -59,3 +59,16 @@ dog-push:
 
 uncommit:
 	git reset --soft HEAD^
+
+push!:
+	git push --force origin $(BRANCH)
+
+push:
+	git push origin $(BRANCH)
+
+commit:
+	git commit -m "..."
+
+commit!:
+	git commit -m "..."
+	git push origin $(BRANCH)
