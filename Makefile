@@ -59,4 +59,3 @@ dog-push:
 
 uncommit:
 	git reset --soft HEAD^
-

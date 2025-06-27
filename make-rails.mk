@@ -21,6 +21,3 @@ migration:
 
 secrets:
 	bin/rails credentials:edit
-
-bop:
-	echo "bop"

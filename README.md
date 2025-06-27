@@ -2,5 +2,5 @@
 
 
 ```bash
-curl -fsSL https://instll.sh/inem/makefiles | sh
+curl -fsSL instll.sh/inem/makefiles/init.sh | sh
 ```
