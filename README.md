@@ -9,12 +9,13 @@ Universal make command management system with automatic command discovery and in
 curl -sSL instll.sh/inem/makefiles/init.sh | bash
 
 # Usage
-make deploy          # command not found
+make deploy         # command fails - not found!
 make it             # find and add command to local Makefile
 make deploy         # now it works
 
 # Or automatically
-make some_command   # automatically finds, adds and executes
+make deploy         # command fails - not found!
+make it!            # find and add command to local Makefile and execute it
 ```
 
 ## 📋 How it works
@@ -52,7 +53,7 @@ make info  # show all variables
 Commands are organized in thematic files:
 
 - `make-git` - Git operations (develop, main, push, etc.)
-- `make-rails` - Rails commands (bop, test, etc.)
+- `make-rails` - Rails commands (console, db, test, etc.)
 - `make-docker` - Docker operations
 
 ## 🛠 Installation
