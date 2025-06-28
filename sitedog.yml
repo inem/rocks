@@ -1,2 +1,6 @@
 inem/makefiles:
   repo: https://github.com/inem/makefiles
+
+makefile.rocks:
+  dns: https://ap.www.namecheap.com/Domains/DomainControlPanel/makefile.rocks/advancedns
+  ip: 138.199.233.98

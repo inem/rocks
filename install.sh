@@ -28,11 +28,11 @@ if [[ -n "$1" ]]; then
 
     echo "🔍 Searching for '$target' command..."
 
-    # Search for command in all make-* files in library folder
+    # Search for command in all make-* files in rocks folder
     found_files=""
     # Escape dots for regex
     escaped_target=$(echo "$target" | sed 's/\./\\./g')
-    for file in $(find "$TEMP_DIR/library" -name "make-*" 2>/dev/null); do
+    for file in $(find "$TEMP_DIR/rocks" -name "make-*" 2>/dev/null); do
         if grep -q "^$escaped_target:" "$file" 2>/dev/null; then
             found_files="$found_files $file"
         fi
