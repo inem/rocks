@@ -65,6 +65,7 @@ rock:
 		echo "Example: make rock git"; \
 		exit 1; \
 	fi; \
+	$(eval $(foreach arg,$(filter-out rock,$(MAKECMDGOALS)),$(arg): ; @:)) \
 	module_name="$(firstword $(ARGS))"; \
 	target_file="make-$$module_name.mk"; \
 	temp_file="/tmp/make-$$module_name-$$$$.mk"; \
@@ -75,14 +76,14 @@ rock:
 		exit 1; \
 	}; \
 	if [ -f "$$target_file" ]; then \
-		echo "⚠️  $$target_file exists, will merge new commands in 9s..."; \
+		echo "⚠️  $$target_file exists, will add new commands in 9s..."; \
 		echo "   Press Ctrl+C to cancel"; \
 		for i in 9 8 7 6 5 4 3 2 1; do \
-			printf "\r   Merging in $$i seconds... "; \
+			printf "\r   Adding in $$i seconds... "; \
 			sleep 1; \
 		done; \
 		printf "\r                               \r"; \
-		echo "🔍 Merging new commands..."; \
+		echo "🔍 Adding new commands..."; \
 		existing_commands=$$(grep "^[a-zA-Z][^:]*:" "$$target_file" 2>/dev/null | cut -d: -f1 | sort || true); \
 		new_commands=$$(grep "^[a-zA-Z][^:]*:" "$$temp_file" 2>/dev/null | cut -d: -f1 | sort || true); \
 		added_count=0; \
@@ -121,6 +122,3 @@ info:
 	@echo "REGISTRY: $(REGISTRY)"
 	@echo "IMAGE_NAME: $(IMAGE_NAME)"
 
-# Handle arguments for commands like 'make rock git'
-%:
-	@:

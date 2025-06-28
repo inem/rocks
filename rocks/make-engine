@@ -65,6 +65,7 @@ rock:
 		echo "Example: make rock git"; \
 		exit 1; \
 	fi; \
+	$(eval $(foreach arg,$(filter-out rock,$(MAKECMDGOALS)),$(arg): ; @:)) \
 	module_name="$(firstword $(ARGS))"; \
 	target_file="make-$$module_name.mk"; \
 	temp_file="/tmp/make-$$module_name-$$$$.mk"; \
@@ -121,6 +122,3 @@ info:
 	@echo "REGISTRY: $(REGISTRY)"
 	@echo "IMAGE_NAME: $(IMAGE_NAME)"
 
-# Handle arguments for commands like 'make rock git'
-%:
-	@:
