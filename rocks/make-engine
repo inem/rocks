@@ -59,13 +59,14 @@ it!:
 		echo "No info about last failed command"; \
 	fi
 
+$(if $(filter rock,$(MAKECMDGOALS)),$(eval $(foreach arg,$(filter-out rock,$(MAKECMDGOALS)),$(arg): ; @:)))
+
 rock:
 	@if [ -z "$(ARGS)" ]; then \
 		echo "Usage: make rock <module-name>"; \
 		echo "Example: make rock git"; \
 		exit 1; \
 	fi; \
-	$(eval $(foreach arg,$(filter-out rock,$(MAKECMDGOALS)),$(arg): ; @:)) \
 	module_name="$(firstword $(ARGS))"; \
 	target_file="make-$$module_name.mk"; \
 	temp_file="/tmp/make-$$module_name-$$$$.mk"; \
