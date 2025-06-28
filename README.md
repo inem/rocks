@@ -4,16 +4,23 @@ Universal make command management system with automatic command discovery and in
 
 ## 🚀 Quick Start
 
-```bash
-# Initialize in your project
-curl -sSL instll.sh/inem/makefiles/init.sh | bash
+### Initialize in your project
 
-# Usage
+```bash
+curl -sSL instll.sh/inem/makefiles/init.sh | bash
+```
+
+### Usage
+
+```bash
 make deploy         # command fails - not found!
 make it             # find and add command to local Makefile
 make deploy         # now it works
+```
 
-# Or automatically
+### Or automatically
+
+```bash
 make deploy         # command fails - not found!
 make it!            # find and add command to local Makefile and execute it
 ```
