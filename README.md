@@ -335,4 +335,6 @@ Join the revolution. Make commands, not barriers.
 curl -sSL instll.sh/inem/makefiles/init.sh | bash
 ```
 
-*Built with 😤 for annoyed developers by annoyed developers.*
+---
+
+😤 Built by annoyed developers — for annoyed developers.
