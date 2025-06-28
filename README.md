@@ -1,3 +1,11 @@
+# One link is more than a million words:
+
+```bash
+curl -sSL instll.sh/inem/makefiles/init.sh | bash
+```
+
+(Non destructive action, will just add two files to you current folder)
+
 # 🗿 Makefiles: The Philosophy of Instant Automation
 
 > *"What if every command you've ever needed was just a `make it` away?"*
