@@ -1,14 +1,11 @@
-# One link is more than a million words:
-
-```bash
-curl -sSL instll.sh/inem/makefiles/init.sh | bash
-```
-
-(Non destructive action, will just add two files to you current folder)
-
-# 🗿 Makefiles: The Philosophy of Instant Automation
+# 🗿 Makefile Rocks
 
 > *"What if every command you've ever needed was just a `make it` away?"*
+
+```bash
+curl -sSL instll.sh/inem/rocks/init.sh | bash
+```
+*Non-destructive. Just adds two files to your current folder.*
 
 Welcome to a new paradigm in developer experience. This isn't just another tool—it's a movement toward **effortless automation**, **collective knowledge sharing**, and **the elimination of context switching**.
 
