@@ -11,8 +11,8 @@ echo "🚀 Initializing project with makefiles..."
 
 # Download make-engine file
 echo "📥 Downloading make-engine..."
-if curl -fsSL "$ENGINE_URL" > "make-engine"; then
-    echo "✅ Downloaded make-engine"
+if curl -fsSL "$ENGINE_URL" > "make-engine.mk"; then
+    echo "✅ Downloaded make-engine.mk"
 else
     echo "❌ Failed to download make-engine"
     exit 1
