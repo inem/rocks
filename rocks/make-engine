@@ -71,11 +71,13 @@ rock:
 	target_file="make-$$module_name.mk"; \
 	temp_file="/tmp/make-$$module_name-$$$$.mk"; \
 	echo "📥 Downloading make-$$module_name from rocks..."; \
-	curl -sSL "https://instll.sh/inem/makefiles/rocks/make-$$module_name" -o "$$temp_file" || { \
-		echo "❌ Failed to download make-$$module_name"; \
+	if curl -sSL "https://instll.sh/inem/makefiles/rocks/make-$$module_name" -o "$$temp_file" && [ -s "$$temp_file" ] && ! grep -q "404: Not Found" "$$temp_file"; then \
+		: ; \
+	else \
+		echo "❌ Failed to download make-$$module_name (not found in rocks/)"; \
 		rm -f "$$temp_file"; \
 		exit 1; \
-	}; \
+	fi; \
 	if [ -f "$$target_file" ]; then \
 		echo "⚠️  $$target_file exists, will add new commands in 9s..."; \
 		echo "   Press Ctrl+C to cancel"; \
