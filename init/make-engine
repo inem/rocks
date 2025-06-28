@@ -66,13 +66,44 @@ rock:
 		exit 1; \
 	fi; \
 	module_name="$(firstword $(ARGS))"; \
+	target_file="make-$$module_name.mk"; \
+	temp_file="/tmp/make-$$module_name-$$$$.mk"; \
 	echo "📥 Downloading make-$$module_name from rocks..."; \
-	curl -sSL "https://instll.sh/inem/makefiles/rocks/make-$$module_name" -o "make-$$module_name.mk" || { \
+	curl -sSL "https://instll.sh/inem/makefiles/rocks/make-$$module_name" -o "$$temp_file" || { \
 		echo "❌ Failed to download make-$$module_name"; \
+		rm -f "$$temp_file"; \
 		exit 1; \
 	}; \
-	echo "✅ Downloaded make-$$module_name.mk"; \
-	echo "🚀 Now you can use commands from make-$$module_name.mk"
+	if [ -f "$$target_file" ]; then \
+		echo "⚠️  $$target_file exists, will merge new commands in 5s..."; \
+		echo "   Press Ctrl+C to cancel"; \
+		sleep 5; \
+		echo "🔍 Merging new commands..."; \
+		existing_commands=$$(grep "^[a-zA-Z][^:]*:" "$$target_file" 2>/dev/null | cut -d: -f1 | sort || true); \
+		new_commands=$$(grep "^[a-zA-Z][^:]*:" "$$temp_file" 2>/dev/null | cut -d: -f1 | sort || true); \
+		added_count=0; \
+		for cmd in $$new_commands; do \
+			if [ -n "$$cmd" ] && ! echo "$$existing_commands" | grep -q "^$$cmd$$"; then \
+				if [ $$added_count -eq 0 ]; then \
+					echo "" >> "$$target_file"; \
+					echo "# Added by make rock $$module_name" >> "$$target_file"; \
+				fi; \
+				echo "➕ Adding command: $$cmd"; \
+				awk "/^$$cmd:/{flag=1; print} flag && /^[^[:space:]]/ && !/^$$cmd:/{flag=0} flag && !/^$$cmd:/{print}" "$$temp_file" >> "$$target_file"; \
+				added_count=$$((added_count + 1)); \
+			fi; \
+		done; \
+		rm -f "$$temp_file"; \
+		if [ $$added_count -eq 0 ]; then \
+			echo "✅ No new commands to add"; \
+		else \
+			echo "✅ Added $$added_count new commands to $$target_file"; \
+		fi; \
+	else \
+		mv "$$temp_file" "$$target_file"; \
+		echo "✅ Downloaded $$target_file"; \
+	fi; \
+	echo "🚀 Now you can use commands from $$target_file"
 
 info:
 	@echo "EMAIL: $(EMAIL)"
