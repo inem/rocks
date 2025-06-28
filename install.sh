@@ -20,8 +20,8 @@ if [[ -n "$1" ]]; then
 
     echo "📥 Fetching latest makefiles..."
 
-    # Clone repository temporarily
-    if ! git clone --quiet "$REPO_URL" "$TEMP_DIR" 2>/dev/null; then
+    # Shallow clone repository temporarily (faster)
+    if ! git clone --quiet --depth 1 "$REPO_URL" "$TEMP_DIR" 2>/dev/null; then
         echo "❌ Failed to clone repository $REPO_URL"
         exit 1
     fi
