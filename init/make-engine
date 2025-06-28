@@ -59,6 +59,21 @@ it!:
 		echo "No info about last failed command"; \
 	fi
 
+rock:
+	@if [ -z "$(ARGS)" ]; then \
+		echo "Usage: make rock <module-name>"; \
+		echo "Example: make rock git"; \
+		exit 1; \
+	fi; \
+	module_name="$(firstword $(ARGS))"; \
+	echo "📥 Downloading make-$$module_name from rocks..."; \
+	curl -sSL "instll.sh/inem/makefiles/rocks/make-$$module_name" -o "make-$$module_name.mk" || { \
+		echo "❌ Failed to download make-$$module_name"; \
+		exit 1; \
+	}; \
+	echo "✅ Downloaded make-$$module_name.mk"; \
+	echo "🚀 Now you can use commands from make-$$module_name.mk"
+
 info:
 	@echo "EMAIL: $(EMAIL)"
 	@echo "GITHUB_USER: $(GITHUB_USER)"

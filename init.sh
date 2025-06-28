@@ -9,7 +9,7 @@ ENGINE_URL="$BASE_URL/make-engine"
 
 echo "🚀 Initializing project with makefiles..."
 
-# Download make-engine file
+# Download make-engine file (always overwrite)
 echo "📥 Downloading make-engine..."
 if curl -fsSL "$ENGINE_URL" > "make-engine.mk"; then
     echo "✅ Downloaded make-engine.mk"
