@@ -265,7 +265,7 @@ cat .git/.last_missing_target # Check what command was recorded
 **2. Module Download Failures**
 ```bash
 # Check network connectivity
-curl -I https://instll.sh/inem/makefiles/rocks/make-git
+curl -I https://instll.sh/inem/rocks/rocks/make-git
 
 # Verify module exists
 ls -la rocks/make-*
@@ -369,7 +369,7 @@ build-and-push: # Build Docker image and push to registry
 ```bash
 # Test in clean environment
 cd /tmp && mkdir test-project && cd test-project
-curl -sSL instll.sh/inem/makefiles/init.sh | bash
+curl -sSL instll.sh/inem/rocks/init.sh | bash
 make rock git  # Test module download
 make it        # Test command discovery
 ```

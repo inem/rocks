@@ -39,7 +39,7 @@ This is **make-driven development**: where your tools adapt to you, not the othe
 
 ```bash
 # 1. Initialize the magic
-curl -sSL instll.sh/inem/makefiles/init.sh | bash
+curl -sSL instll.sh/inem/rocks/init.sh | bash
 
 # 2. Try any command (it will fail)
 make deploy
@@ -268,7 +268,7 @@ Idea → make it → Works
 
 ### One-Line Setup
 ```bash
-curl -sSL instll.sh/inem/makefiles/init.sh | bash
+curl -sSL instll.sh/inem/rocks/init.sh | bash
 ```
 
 This creates:
@@ -329,9 +329,9 @@ This is just the beginning. **Make** was created in 1976. It's time for an upgra
 ## 📚 Learn More
 
 - 🏠 **[Live Demo](https://makefiles.rocks)** - See it in action
-- 🗿 **[Rock Collection](https://github.com/inem/makefiles/tree/main/rocks)** - Browse available modules
-- 💬 **[Discussions](https://github.com/inem/makefiles/discussions)** - Share patterns and ideas
-- 🐛 **[Issues](https://github.com/inem/makefiles/issues)** - Report bugs or request features
+- 🗿 **[Rock Collection](https://github.com/inem/rocks/tree/main/rocks)** - Browse available modules
+- 💬 **[Discussions](https://github.com/inem/rocks/discussions)** - Share patterns and ideas
+- 🐛 **[Issues](https://github.com/inem/rocks/issues)** - Report bugs or request features
 
 ---
 
@@ -340,7 +340,7 @@ This is just the beginning. **Make** was created in 1976. It's time for an upgra
 Join the revolution. Make commands, not barriers.
 
 ```bash
-curl -sSL instll.sh/inem/makefiles/init.sh | bash
+curl -sSL instll.sh/inem/rocks/init.sh | bash
 ```
 
 ---

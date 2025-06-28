@@ -4,7 +4,7 @@
 # Usage: curl -sSL <URL>/install.sh | sh -s "make deploy"
 # Updated: force cache invalidation
 
-REPO_URL="https://github.com/inem/makefiles.git"
+REPO_URL="https://github.com/inem/rocks.git"
 TEMP_DIR="/tmp/makefiles-$$"
 
 if [[ -n "$1" ]]; then

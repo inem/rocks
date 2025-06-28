@@ -44,7 +44,7 @@ LAST_MISSING    = .git/.last_missing_target
 it:
 	@if [ -f $(LAST_MISSING) ]; then \
 		target=$$(cat $(LAST_MISSING) | tr -d '\n'); \
-		curl -fsSL "instll.sh/inem/makefiles" | bash -s "make $$target"; \
+		curl -fsSL "instll.sh/inem/rocks" | bash -s "make $$target"; \
 		rm -f $(LAST_MISSING); \
 	else \
 		echo "No info about last failed command"; \
@@ -53,7 +53,7 @@ it:
 it!:
 	@if [ -f $(LAST_MISSING) ]; then \
 		target=$$(cat $(LAST_MISSING) | tr -d '\n'); \
-		EXECUTE=1 bash -c 'curl -fsSL "instll.sh/inem/makefiles" | bash -s "make '$$target'"'; \
+		EXECUTE=1 bash -c 'curl -fsSL "instll.sh/inem/rocks" | bash -s "make '$$target'"'; \
 		rm -f $(LAST_MISSING); \
 	else \
 		echo "No info about last failed command"; \
@@ -63,15 +63,24 @@ $(if $(filter rock,$(MAKECMDGOALS)),$(eval $(foreach arg,$(filter-out rock,$(MAK
 
 rock:
 	@if [ -z "$(ARGS)" ]; then \
-		echo "Usage: make rock <module-name>"; \
+		echo "Usage: make rock <module-name> or make rock <user>/<module-name>"; \
 		echo "Example: make rock git"; \
+		echo "Example: make rock alice/docker"; \
 		exit 1; \
 	fi; \
-	module_name="$(firstword $(ARGS))"; \
+	rock_path="$(firstword $(ARGS))"; \
+	if echo "$$rock_path" | grep -q "/"; then \
+		user=$$(echo "$$rock_path" | cut -d'/' -f1); \
+		module_name=$$(echo "$$rock_path" | cut -d'/' -f2); \
+		repo_path="$$user/makefiles"; \
+	else \
+		repo_path="inem/rocks"; \
+		module_name="$$rock_path"; \
+	fi; \
 	target_file="make-$$module_name.mk"; \
 	temp_file="/tmp/make-$$module_name-$$$$.mk"; \
-	echo "📥 Downloading make-$$module_name from rocks..."; \
-	if curl -sSL "https://instll.sh/inem/makefiles/rocks/make-$$module_name" -o "$$temp_file" && [ -s "$$temp_file" ] && ! grep -q "404: Not Found" "$$temp_file"; then \
+	echo "📥 Downloading make-$$module_name from $$repo_path/rocks..."; \
+	if curl -sSL "https://instll.sh/$$repo_path/rocks/make-$$module_name" -o "$$temp_file" && [ -s "$$temp_file" ] && ! grep -q "404: Not Found" "$$temp_file"; then \
 		: ; \
 	else \
 		echo "❌ Failed to download make-$$module_name (not found in rocks/)"; \

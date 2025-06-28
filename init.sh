@@ -7,7 +7,7 @@ echo "🚀 Initializing project with makefiles..."
 
 # Download make-engine
 echo "📥 Downloading make-engine..."
-curl -fsSL "https://instll.sh/inem/makefiles/rocks/make-engine" > "make-engine.mk" || {
+curl -fsSL "https://instll.sh/inem/rocks/rocks/make-engine" > "make-engine.mk" || {
     echo "❌ Failed to download make-engine"
     exit 1
 }

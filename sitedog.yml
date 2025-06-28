@@ -1,8 +1,5 @@
-inem/makefiles:
-  repo: https://github.com/inem/makefiles
-  install: curl -sSL instll.sh/inem/makefiles/init.sh | bash
+inem/rocks:
+  repo: https://github.com/inem/rocks
+  install: curl -sSL instll.sh/inem/rocks/init.sh | bash
 
 
-makefile.rocks:
-  dns: https://ap.www.namecheap.com/Domains/DomainControlPanel/makefile.rocks/advancedns
-  ip: 138.199.233.98
