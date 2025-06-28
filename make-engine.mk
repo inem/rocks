@@ -75,9 +75,13 @@ rock:
 		exit 1; \
 	}; \
 	if [ -f "$$target_file" ]; then \
-		echo "⚠️  $$target_file exists, will merge new commands in 5s..."; \
+		echo "⚠️  $$target_file exists, will merge new commands in 9s..."; \
 		echo "   Press Ctrl+C to cancel"; \
-		sleep 5; \
+		for i in 9 8 7 6 5 4 3 2 1; do \
+			printf "\r   Merging in $$i seconds... "; \
+			sleep 1; \
+		done; \
+		printf "\r                               \r"; \
 		echo "🔍 Merging new commands..."; \
 		existing_commands=$$(grep "^[a-zA-Z][^:]*:" "$$target_file" 2>/dev/null | cut -d: -f1 | sort || true); \
 		new_commands=$$(grep "^[a-zA-Z][^:]*:" "$$temp_file" 2>/dev/null | cut -d: -f1 | sort || true); \

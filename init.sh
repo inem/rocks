@@ -3,43 +3,30 @@
 # Initialize project with makefiles
 # Usage: curl -sSL <URL>/init.sh | bash
 
-BASE_URL="https://raw.githubusercontent.com/inem/makefiles/refs/heads/main/init"
-MAKEFILE_URL="$BASE_URL/Makefile"
-ENGINE_URL="$BASE_URL/make-engine"
-
 echo "🚀 Initializing project with makefiles..."
 
-# Download make-engine file (always overwrite)
+# Download make-engine
 echo "📥 Downloading make-engine..."
-if curl -fsSL "$ENGINE_URL" > "make-engine.mk"; then
-    echo "✅ Downloaded make-engine.mk"
-else
+curl -fsSL "https://instll.sh/inem/makefiles/rocks/make-engine" > "make-engine.mk" || {
     echo "❌ Failed to download make-engine"
     exit 1
-fi
+}
+echo "✅ Downloaded make-engine.mk"
 
-# Check if Makefile already exists
+# Create/update Makefile
 if [[ -f "./Makefile" ]]; then
-    echo "⚠️  Makefile already exists"
-
-    # Check if it already includes make-*.mk
-    if grep -q "include make-\*\.mk" "./Makefile" 2>/dev/null; then
-        echo "✅ Makefile already includes make-*.mk"
-    else
+    if ! grep -q "include make-\*\.mk" "./Makefile" 2>/dev/null; then
         echo "📝 Adding include make-*.mk to existing Makefile..."
-        # Add include at the top of the file
         echo -e "include make-*.mk\n$(cat ./Makefile)" > ./Makefile.tmp
         mv ./Makefile.tmp ./Makefile
         echo "✅ Added include to Makefile"
+    else
+        echo "✅ Makefile already includes make-*.mk"
     fi
 else
-    echo "📥 Downloading Makefile..."
-    if curl -fsSL "$MAKEFILE_URL" > "Makefile"; then
-        echo "✅ Downloaded Makefile"
-    else
-        echo "❌ Failed to download Makefile"
-        exit 1
-    fi
+    echo "📝 Creating Makefile..."
+    echo "include make-*.mk" > "Makefile"
+    echo "✅ Created Makefile"
 fi
 
 echo ""

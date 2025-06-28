@@ -2,12 +2,6 @@
 new:
 	git checkout $(ARGS) || git checkout -b $(ARGS)
 
-stash:
-	git stash save --keep-index --include-untracked
-
-unstash:
-	git stash apply
-
 master:
 	@ git status
 
@@ -35,14 +29,6 @@ remote:
 last-commit:
 	git log -1 --pretty=%B
 
-# merge feature branch to dev
-merge-to:
-	@	$(eval current_branch := $(BRANCH))
-		 git checkout $(ARGS)
-		 git merge $(current_branch) --no-edit
-		 git push origin $(ARGS)
-		 git checkout $(current_branch)
-
 unmerge:
 	git merge --abort
 
@@ -52,11 +38,6 @@ branch-reset:
 
 pull!:
 	git pull origin $(BRANCH) --rebase
-
-pull!!: branch-reset
-
-unrebase:
-	git rebase --abort
 
 fetch:
 	git fetch
@@ -71,3 +52,34 @@ commit!:
 ...:
 	git add .
 	git commit -m "..."
+
+# Added by make rock git
+branch:
+	git checkout $(ARGS) > /dev/null 2>&1 || git checkout -b $(ARGS)
+
+develop:
+	git checkout develop
+
+staging:
+	git checkout staging
+
+
+# Added by make rock git
+merge-to:
+	@	$(eval current_branch := $(BRANCH))
+		 git checkout $(ARGS)
+		 git merge $(current_branch) --no-edit
+		 git push origin $(ARGS)
+		 git checkout $(current_branch)
+
+pull!!: branch-reset
+
+stash:
+	git stash save --keep-index --include-untracked
+
+unrebase:
+	git rebase --abort
+
+unstash:
+	git stash apply
+
