@@ -67,7 +67,7 @@ rock:
 	fi; \
 	module_name="$(firstword $(ARGS))"; \
 	echo "📥 Downloading make-$$module_name from rocks..."; \
-	curl -sSL "instll.sh/inem/makefiles/rocks/make-$$module_name" -o "make-$$module_name.mk" || { \
+	curl -sSL "https://instll.sh/inem/makefiles/rocks/make-$$module_name" -o "make-$$module_name.mk" || { \
 		echo "❌ Failed to download make-$$module_name"; \
 		exit 1; \
 	}; \
@@ -85,3 +85,7 @@ info:
 	@echo
 	@echo "REGISTRY: $(REGISTRY)"
 	@echo "IMAGE_NAME: $(IMAGE_NAME)"
+
+# Handle arguments for commands like 'make rock git'
+%:
+	@:
