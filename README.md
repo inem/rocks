@@ -325,7 +325,7 @@ This is just the beginning. **Make** was created in 1976. It's time for an upgra
 
 ## 📚 Learn More
 
-- 🏠 **[Live Demo](https://makefiles.rocks)** - See it in action
+- 🏠 **[Live Demo](https://makefile.rocks)** - See it in action
 - 🗿 **[Rock Collection](https://github.com/inem/rocks/tree/main/rocks)** - Browse available modules
 - 💬 **[Discussions](https://github.com/inem/rocks/discussions)** - Share patterns and ideas
 - 🐛 **[Issues](https://github.com/inem/rocks/issues)** - Report bugs or request features
