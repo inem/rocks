@@ -3,4 +3,5 @@ inem/rocks:
   commands:
     install: curl -sSL instll.sh/inem/rocks/init.sh | bash
 
-
+  development:
+    codespace: https://zany-yodel-9699555qcrqg.github.dev/
