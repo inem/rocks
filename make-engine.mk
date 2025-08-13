@@ -134,3 +134,7 @@ info:
 	@echo "REGISTRY: $(REGISTRY)"
 	@echo "IMAGE_NAME: $(IMAGE_NAME)"
 
+GREEN := [32m
+YELLOW := [33m
+RED := [31m
+NC := [0m # No Color
