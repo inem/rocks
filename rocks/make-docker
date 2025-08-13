@@ -1,8 +1,8 @@
 build:
-	docker build --platform linux/amd64 .
+	docker build --platform linux/amd64 -t $(IMAGE_NAME):$(IMAGE_TAG) .
 
 build-multi:
-	docker buildx build --platform linux/amd64,linux/arm64 $(IMAGE_NAME) .
+	docker buildx build --platform linux/amd64,linux/arm64 -t $(IMAGE_NAME) .
 
 run:
 	docker run -d -p $(PORT):80 --name $(CONTAINER_NAME) $(IMAGE_NAME)
@@ -12,4 +12,5 @@ stop:
 	docker rm $(CONTAINER_NAME)
 
 ship: build
-	docker push $(REGISTRY)
+	docker tag $(IMAGE_NAME):$(IMAGE_TAG) $(REGISTRY):$(IMAGE_TAG)
+	docker push $(REGISTRY):$(IMAGE_TAG)
