@@ -11,5 +11,5 @@ stop:
 	docker stop $(CONTAINER_NAME)
 	docker rm $(CONTAINER_NAME)
 
-ship:
-	docker build --platform linux/amd64 -t $(REGISTRY):$(IMAGE_TAG) .
+ship: build
+	docker push $(REGISTRY)
