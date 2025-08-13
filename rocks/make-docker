@@ -1,5 +1,5 @@
 build:
-	docker build --platform linux/amd64 $(IMAGE_NAME) .
+	docker build --platform linux/amd64 .
 
 build-multi:
 	docker buildx build --platform linux/amd64,linux/arm64 $(IMAGE_NAME) .
