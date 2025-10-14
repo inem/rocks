@@ -1,7 +1,10 @@
 # Package installation variables
 GITHUB_USER = $(shell git config --get github.user 2>/dev/null)
 
-$(if $(filter instll,$(MAKECMDGOALS)),$(eval $(foreach arg,$(filter-out instll,$(MAKECMDGOALS)),$(arg): ; @true)))
+# Ignore arguments when running instll
+ifneq (,$(filter instll,$(MAKECMDGOALS)))
+$(foreach arg,$(filter-out instll,$(MAKECMDGOALS)),$(eval $(arg): ; @:))
+endif
 
 .PHONY: instll
 
