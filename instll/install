@@ -54,10 +54,12 @@ if [ -n "$defaults" ]; then
             echo "📦 Installing module: $module"
             module_url="https://instll.sh/inem/rocks/make-$module"
             echo "🔗 URL: $module_url"
-            if curl -fsSL "$module_url" > "make-$module.mk" 2>/dev/null; then
+            curl -fsSL "$module_url" > "make-$module.mk"
+            if [ -s "make-$module.mk" ]; then
                 echo "✅ Downloaded make-$module.mk"
             else
                 echo "⚠️  Failed to download make-$module (skipping)"
+                rm -f "make-$module.mk"
             fi
         fi
     done <<< "$defaults"
