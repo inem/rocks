@@ -43,17 +43,13 @@ echo "✅ Downloaded make-engine.mk"
 # Download default modules
 echo "📥 Downloading default modules..."
 defaults_url="https://instll.sh/inem/rocks/defaults"
-echo "🔍 Fetching defaults from: $defaults_url"
 defaults=$(curl -fsSL "$defaults_url" | grep -v '^#' | grep -v '^$')
 
 if [ -n "$defaults" ]; then
-    echo "📋 Found defaults:"
-    echo "$defaults"
     while IFS= read -r module; do
         if [ -n "$module" ]; then
             echo "📦 Installing module: $module"
             module_url="https://instll.sh/inem/rocks/make-$module"
-            echo "🔗 URL: $module_url"
             curl -fsSL "$module_url" > "make-$module.mk"
             if [ -s "make-$module.mk" ]; then
                 echo "✅ Downloaded make-$module.mk"
