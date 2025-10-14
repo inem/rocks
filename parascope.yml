@@ -1,7 +1,7 @@
 inem/rocks:
   repo: https://github.com/inem/rocks
   commands:
-    install: curl -fsSL instll.sh/inem/rocks/init | bash
+    install: curl -fsSL instll.sh/inem/rocks | bash
 
   development:
     codespace: https://zany-yodel-9699555qcrqg.github.dev/
