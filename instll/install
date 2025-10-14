@@ -34,29 +34,57 @@ fi
 
 # Download make-engine (always required)
 echo "📥 Downloading make-engine..."
-curl -fsSL "https://instll.sh/inem/rocks/make-engine" > "make-engine.mk" || {
-    echo "❌ Failed to download make-engine"
-    exit 1
-}
+for attempt in 1 2 3; do
+    if curl -fsSL --connect-timeout 5 --max-time 10 "https://instll.sh/inem/rocks/make-engine" > "make-engine.mk" && [ -s "make-engine.mk" ]; then
+        break
+    else
+        echo "⚠️  Attempt $attempt failed, retrying..."
+        rm -f "make-engine.mk"
+        if [ $attempt -eq 3 ]; then
+            echo "❌ Failed to download make-engine after 3 attempts"
+            exit 1
+        fi
+        sleep 1
+    fi
+done
 echo "✅ Downloaded make-engine.mk"
 
 # Download default modules
 echo "📥 Downloading default modules..."
 defaults_url="https://instll.sh/inem/rocks/defaults"
-defaults=$(curl -fsSL "$defaults_url" | grep -v '^#' | grep -v '^$')
+for attempt in 1 2 3; do
+    defaults=$(curl -fsSL --connect-timeout 5 --max-time 10 "$defaults_url" 2>/dev/null | grep -v '^#' | grep -v '^$')
+    if [ -n "$defaults" ]; then
+        break
+    else
+        if [ $attempt -eq 3 ]; then
+            echo "⚠️  Failed to fetch defaults after 3 attempts"
+        else
+            echo "⚠️  Attempt $attempt failed, retrying defaults..."
+            sleep 1
+        fi
+    fi
+done
 
 if [ -n "$defaults" ]; then
     while IFS= read -r module; do
         if [ -n "$module" ]; then
             echo "📦 Installing module: $module"
             module_url="https://instll.sh/inem/rocks/make-$module"
-            curl -fsSL "$module_url" > "make-$module.mk"
-            if [ -s "make-$module.mk" ]; then
-                echo "✅ Downloaded make-$module.mk"
-            else
-                echo "⚠️  Failed to download make-$module (skipping)"
-                rm -f "make-$module.mk"
-            fi
+            for attempt in 1 2 3; do
+                if curl -fsSL --connect-timeout 5 --max-time 10 "$module_url" > "make-$module.mk" && [ -s "make-$module.mk" ]; then
+                    echo "✅ Downloaded make-$module.mk"
+                    break
+                else
+                    rm -f "make-$module.mk"
+                    if [ $attempt -eq 3 ]; then
+                        echo "⚠️  Failed to download make-$module after 3 attempts (skipping)"
+                    else
+                        echo "⚠️  Attempt $attempt failed, retrying make-$module..."
+                        sleep 1
+                    fi
+                fi
+            done
         fi
     done <<< "$defaults"
 else
