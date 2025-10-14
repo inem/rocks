@@ -23,4 +23,5 @@ vars:
 	@echo "Run 'make rock <module>' to add modules:"
 	@echo "  make rock git     # Git workflow commands"
 	@echo "  make rock docker  # Docker build/deploy commands"
+	@echo "  make rock instll  # Package installation commands"
 	@echo "  make rock vars    # Variable information commands"

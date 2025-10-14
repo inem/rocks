@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Initialize project with makefiles
-# Usage: curl -sSL <URL>/init.sh | bash
+# Usage: curl -sSL <URL>/install | bash
 
 echo "🚀 Initializing project with makefiles..."
 
@@ -32,13 +32,33 @@ else
     echo "   Example: git config --global rocks.source inem/rocks"
 fi
 
-# Download make-engine
+# Download make-engine (always required)
 echo "📥 Downloading make-engine..."
 curl -fsSL "https://instll.sh/inem/rocks/make-engine" > "make-engine.mk" || {
     echo "❌ Failed to download make-engine"
     exit 1
 }
 echo "✅ Downloaded make-engine.mk"
+
+# Download default modules
+echo "📥 Downloading default modules..."
+defaults_url="https://instll.sh/inem/rocks/defaults"
+defaults=$(curl -fsSL "$defaults_url" 2>/dev/null | grep -v '^#' | grep -v '^$')
+
+if [ -n "$defaults" ]; then
+    while IFS= read -r module; do
+        if [ -n "$module" ]; then
+            echo "📦 Installing module: $module"
+            if curl -fsSL "https://instll.sh/inem/rocks/make-$module" > "make-$module.mk" 2>/dev/null; then
+                echo "✅ Downloaded make-$module.mk"
+            else
+                echo "⚠️  Failed to download make-$module (skipping)"
+            fi
+        fi
+    done <<< "$defaults"
+else
+    echo "⚠️  Could not fetch defaults, skipping additional modules"
+fi
 
 # Create/update Makefile
 if [[ -f "./Makefile" ]]; then
@@ -60,9 +80,11 @@ echo ""
 echo "🎉 Project initialized! Now you can:"
 echo "  $ make <any-command>  # will auto-find and add commands"
 echo "  $ make it             # manually find last failed command"
-echo "  $ make info           # show all available variables"
+echo "  $ make instll <pkg>   # install packages from instll.sh"
+echo "  $ make vars           # show system variables"
 
 echo ""
 echo "Try:"
 echo "  $ make deploy"
 echo "  $ make it"
+echo "  $ make instll inem/dot-commit  # install additional tools"

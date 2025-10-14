@@ -87,6 +87,7 @@ Commands are organized in **rocks** (modules) that you can pick and mix:
 - 🔧 `make-git`: Git workflows (`push`, `pull`, `branch`, `merge-to`)
 - 🚂 `make-rails`: Rails development (`console`, `test`, `migrate`)
 - 🐳 `make-docker`: Container operations (`build`, `run`, `deploy`)
+- 📦 `make-instll`: Package installation (`instll user/package`)
 - 🔮 `make-engine`: The core system (auto-installed)
 
 ### Intelligent Merging

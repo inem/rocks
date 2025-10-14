@@ -77,11 +77,11 @@ rock:
 	fi; \
 	target_file="make-$$module_name.mk"; \
 	temp_file="/tmp/make-$$module_name-$$$$.mk"; \
-	echo "📥 Downloading make-$$module_name from $$repo_path/rocks..."; \
-	if curl -sSL "https://instll.sh/$$repo_path/rocks/make-$$module_name" -o "$$temp_file" && [ -s "$$temp_file" ] && ! grep -q "404: Not Found" "$$temp_file"; then \
+	echo "📥 Downloading make-$$module_name from $$repo_path..."; \
+	if curl -sSL "https://instll.sh/$$repo_path/make-$$module_name" -o "$$temp_file" && [ -s "$$temp_file" ] && ! grep -q "404: Not Found" "$$temp_file"; then \
 		: ; \
 	else \
-		echo "❌ Failed to download make-$$module_name (not found in rocks/)"; \
+		echo "❌ Failed to download make-$$module_name (not found)"; \
 		rm -f "$$temp_file"; \
 		exit 1; \
 	fi; \

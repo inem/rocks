@@ -4,7 +4,7 @@ RED := [31m
 NC := [0m # No Color
 
 # Rocks system version
-ROCKS_VERSION = 0.5.0
+ROCKS_VERSION = 0.5.2
 
 # Core rocks system variables
 ROCKS_SOURCE = $(shell git config --get rocks.source 2>/dev/null)
