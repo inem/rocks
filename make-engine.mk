@@ -1,3 +1,8 @@
+GREEN := [32m
+YELLOW := [33m
+RED := [31m
+NC := [0m # No Color
+
 # Rocks system version
 ROCKS_VERSION = 0.5.0
 
@@ -114,4 +119,5 @@ rock:
 		echo "✅ Downloaded $$target_file"; \
 	fi; \
 	echo "🚀 Now you can use commands from $$target_file"
+
 
