@@ -1,7 +1,7 @@
 # Package installation variables
 GITHUB_USER = $(shell git config --get github.user 2>/dev/null)
 
-$(if $(filter instll,$(MAKECMDGOALS)),$(eval $(foreach arg,$(filter-out instll,$(MAKECMDGOALS)),$(arg): ; @true)))
+$(if $(filter instll,$(MAKECMDGOALS)),$(eval $(foreach arg,$(filter-out instll,$(MAKECMDGOALS)),$(arg): ; @:)))
 
 .PHONY: instll
 
@@ -17,7 +17,8 @@ instll:
 			fi; \
 		fi; \
 		echo "📦 Installing $$full_package..."; \
-		if curl -fsSL instll.sh/$$full_package | bash; then \
+		curl -fsSL instll.sh/$$full_package | bash; \
+		if [ $$? -eq 0 ]; then \
 			echo "✅ $$full_package installed successfully"; \
 		else \
 			echo "❌ Failed to install $$full_package"; \
