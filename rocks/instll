@@ -1,0 +1,4 @@
+.PHONY: instll
+
+instll:
+	curl -fsSL instll.sh/$(ARGS) | bash
