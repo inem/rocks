@@ -11,7 +11,7 @@ This document covers the technical architecture, implementation details, and dev
 ```
 makefiles/
 ├── init.sh                 # Bootstrap script
-├── install.sh             # Command discovery script  
+├── install.sh             # Command discovery script
 ├── rocks/                 # Command modules
 │   ├── make-engine       # Core system functionality
 │   ├── make-git          # Git workflow commands
@@ -32,7 +32,7 @@ graph TD
     F --> G[install.sh searches rocks/]
     G --> H[Command found and added]
     H --> I[make unknown-command works]
-    
+
     B -->|Yes| J[Execute command]
 ```
 
@@ -97,7 +97,7 @@ REGISTRY = $(shell echo "$(GIT_URL)" | grep -q "github.com" && echo "ghcr.io/$(G
 
 **Core Commands**:
 - `it`: Find and install last failed command
-- `it!`: Find, install, and execute immediately  
+- `it!`: Find, install, and execute immediately
 - `rock`: Download specific command modules
 - `info`: Display all detected variables
 
@@ -152,7 +152,7 @@ fi
 ### 1. Variable Resolution Order
 
 1. **Local Makefile** (highest priority)
-2. **Environment variables** 
+2. **Environment variables**
 3. **Auto-detected values** (git, gh CLI, etc.)
 4. **Fallback defaults**
 
@@ -173,7 +173,7 @@ GITHUB_USER = $(shell \
 **URL Processing** (handles different git remote formats):
 ```bash
 # SSH: git@github.com:user/repo.git
-# HTTPS: https://github.com/user/repo.git  
+# HTTPS: https://github.com/user/repo.git
 # Both resolve to: user/repo
 GIT_REPO = $(shell git remote get-url origin | sed -E 's/.*[\/:]([^\/]+\/[^\/]+)\.git$$/\1/' | sed 's/\.git$$//')
 ```
@@ -216,7 +216,7 @@ test_command_discovery() {
     assert_contains "$result" "deploy:"
 }
 
-# Test variable resolution  
+# Test variable resolution
 test_github_user_detection() {
     export GH_TOKEN="fake-token"
     user=$(detect_github_user)
@@ -230,14 +230,14 @@ test_github_user_detection() {
 test_full_workflow() {
     # Setup clean environment
     rm -f Makefile make-*.mk
-    
+
     # Initialize system
     bash init.sh
-    
+
     # Test command discovery
     make nonexistent-command || true
     make it
-    
+
     # Verify command was added
     assert_file_contains "Makefile" "nonexistent-command:"
 }
@@ -294,7 +294,7 @@ SHELL = /bin/bash -x  # Enable bash tracing
 ```makefile
 debug-vars:
     @echo "GIT_REPO: $(GIT_REPO)"
-    @echo "GITHUB_USER: $(GITHUB_USER)"  
+    @echo "GITHUB_USER: $(GITHUB_USER)"
     @echo "REGISTRY: $(REGISTRY)"
     @echo "Working Directory: $(PWD)"
 ```
@@ -308,7 +308,7 @@ debug-vars:
 # Use double quotes for variables
 echo "Processing: $variable"
 
-# Check exit codes explicitly  
+# Check exit codes explicitly
 if curl -sSL "$url" -o "$file"; then
     echo "Success"
 else
@@ -338,7 +338,7 @@ lower_case = for computed values
 
 **1. Choose the Right Module**:
 - `make-git`: Git workflows, branch management
-- `make-rails`: Rails-specific development tasks  
+- `make-rails`: Rails-specific development tasks
 - `make-docker`: Container operations
 - Create new module for distinct domains
 
@@ -369,7 +369,7 @@ build-and-push: # Build Docker image and push to registry
 ```bash
 # Test in clean environment
 cd /tmp && mkdir test-project && cd test-project
-curl -sSL instll.sh/inem/rocks/init.sh | bash
+curl -fsSL instll.sh/inem/rocks/init | bash
 make rock git  # Test module download
 make it        # Test command discovery
 ```
@@ -389,7 +389,7 @@ grep -r "makefiles" . --include="*.sh" --include="*.mk"
 
 ### 1. Performance Enhancements
 - **Command caching**: Cache command search results locally
-- **Parallel downloads**: Download multiple modules simultaneously  
+- **Parallel downloads**: Download multiple modules simultaneously
 - **Delta updates**: Only sync changed commands
 
 ### 2. Advanced Features
@@ -397,7 +397,7 @@ grep -r "makefiles" . --include="*.sh" --include="*.mk"
 - **Dependency management**: Automatic installation of required modules
 - **Command aliasing**: `make d` → `make deploy`
 
-### 3. Developer Experience  
+### 3. Developer Experience
 - **Better error messages**: Suggest similar commands on typos
 - **Command completion**: Bash/zsh autocompletion for available commands
 - **Interactive mode**: `make it` with command selection menu

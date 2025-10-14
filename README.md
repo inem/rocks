@@ -3,7 +3,7 @@
 > *"What if every command you've ever needed was just a `make it` away?"*
 
 ```bash
-curl -sSL instll.sh/inem/rocks/init.sh | bash
+curl -fsSL instll.sh/inem/rocks/init | bash
 ```
 *Non-destructive. Just adds two files to your current folder.*
 
@@ -36,7 +36,7 @@ This is **make-driven development**: where your tools adapt to you, not the othe
 
 ```bash
 # 1. Initialize the magic
-curl -sSL instll.sh/inem/rocks/init.sh | bash
+curl -fsSL instll.sh/inem/rocks/init | bash
 
 # 2. Try any command (it will fail)
 make deploy
@@ -265,7 +265,7 @@ Idea → make it → Works
 
 ### One-Line Setup
 ```bash
-curl -sSL instll.sh/inem/rocks/init.sh | bash
+curl -fsSL instll.sh/inem/rocks/init | bash
 ```
 
 This creates:
@@ -337,7 +337,7 @@ This is just the beginning. **Make** was created in 1976. It's time for an upgra
 Join the revolution. Make commands, not barriers.
 
 ```bash
-curl -sSL instll.sh/inem/rocks/init.sh | bash
+curl -fsSL instll.sh/inem/rocks/init | bash
 ```
 
 ---
