@@ -1,3 +1,6 @@
+# Git-specific variables
+BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
+
 branch:
 	git checkout $(ARGS) > /dev/null 2>&1 || git checkout -b $(ARGS)
 
@@ -79,3 +82,8 @@ commit!:
 ...:
 	git add .
 	git commit -m "..."
+
+git-info:
+	@echo "=== Git Configuration ==="
+	@echo "BRANCH: $(BRANCH)"
+	@echo "GIT_URL: $(shell git remote get-url origin 2>/dev/null)"

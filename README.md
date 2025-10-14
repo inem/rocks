@@ -272,6 +272,7 @@ This creates:
 - ✅ `Makefile` with `include make-*.mk`
 - ✅ `make-engine.mk` with core functionality
 - ✅ Smart defaults for your project
+- ✅ Automatic configuration of `rocks.source`
 
 ### First Commands to Try
 ```bash
@@ -281,6 +282,106 @@ make rock rails     # Add rails commands (if applicable)
 make deploy         # Let it fail, then...
 make it             # Watch the magic
 ```
+
+## 🏗️ How It Works: Personal Rocks Collections
+
+This repository isn't just a tool—it's a **personal command collection system**. Here's how it works:
+
+### The Fork-as-Personal-Base Concept
+When you fork this repository, you're creating your own **personal command library**:
+
+- 🎯 **Customization**: Add your own make-commands to `rocks/`
+- 🏢 **Team Sharing**: Share your collection with your team
+- 🔄 **Evolution**: Your commands evolve with your workflow
+- 📦 **Distribution**: Others can use your commands via `instll.sh/YOUR_USERNAME/rocks/init`
+
+### How the System Determines Your Source
+The system automatically determines where to fetch commands from using `rocks.source`:
+
+1. **First run**: `init.sh` tries to detect your GitHub username via `gh` CLI
+2. **Auto-configuration**: Sets `git config --global rocks.source YOUR_USERNAME/rocks`
+3. **Command execution**: `make it` and `make rock` use this source
+4. **Manual override**: You can always set it manually
+
+## 🍴 Forking This Repository
+
+### Step-by-Step Guide
+
+1. **Fork on GitHub**
+   - Click "Fork" button on this repository
+   - You now have `github.com/YOUR_USERNAME/rocks`
+
+2. **Clone Your Fork**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/rocks
+   cd rocks
+   ```
+
+3. **Configure Your Source**
+   ```bash
+   git config --global rocks.source YOUR_USERNAME/rocks
+   ```
+
+4. **Customize Your Collection**
+   - Add your own make-files to `rocks/`
+   - Modify existing commands
+   - Create team-specific modules
+
+5. **Use in Projects**
+   ```bash
+   # Others can now use your collection:
+   curl -fsSL instll.sh/YOUR_USERNAME/rocks/init | bash
+   ```
+
+### Example Workflow
+```bash
+# Alice forks and customizes
+git clone https://github.com/alice/rocks
+cd rocks
+git config --global rocks.source alice/rocks
+
+# Alice adds her custom commands
+echo "deploy-staging:
+	docker build -t myapp:staging .
+	docker push myapp:staging" >> rocks/make-deploy
+
+# Alice commits and pushes
+git add rocks/make-deploy
+git commit -m "Add staging deployment"
+git push
+
+# Bob uses Alice's collection
+curl -fsSL instll.sh/alice/rocks/init | bash
+make deploy-staging  # Now available!
+```
+
+## 🛠️ Creating Your Own Rocks
+
+### Adding New Commands
+Simply add new `.mk` files to the `rocks/` directory:
+
+```bash
+# Create a new module
+echo "deploy:
+	docker build -t \$(IMAGE_NAME) .
+	docker push \$(REGISTRY):\$(IMAGE_TAG)" > rocks/make-deploy
+
+# Commit and push
+git add rocks/make-deploy
+git commit -m "Add deployment commands"
+git push
+```
+
+### Team Collaboration
+- **Shared Fork**: Team maintains one fork with shared commands
+- **Individual Forks**: Each developer has personal + team commands
+- **Hybrid**: Use `make rock alice/docker` to get specific person's commands
+
+### Use Cases
+- **Personal Productivity**: Your own shortcuts and workflows
+- **Project-Specific**: Commands unique to your project
+- **Team Standards**: Shared deployment, testing, and development commands
+- **Learning**: Experiment with new tools and patterns
 
 ## 🤝 Contributing: Join the Movement
 
