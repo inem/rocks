@@ -1,11 +1,13 @@
 # Information and debugging variables
+ROCKS_VERSION = 0.5.0
 GITHUB_USER = $(shell git config --get github.user 2>/dev/null)
 GITLAB_USER = $(shell git config --get gitlab.user 2>/dev/null)
 EMAIL = $(shell git config --get user.email 2>/dev/null)
 ROCKS_SOURCE = $(shell git config --get rocks.source 2>/dev/null)
 
 vars:
-	@echo "=== Rocks Configuration ==="
+	@echo "=== Rocks System ==="
+	@echo "ROCKS_VERSION: $(ROCKS_VERSION)"
 	@if [ -n "$(ROCKS_SOURCE)" ]; then \
 		echo "ROCKS_SOURCE: $(ROCKS_SOURCE)"; \
 	else \

@@ -1,3 +1,6 @@
+# Rocks system version
+ROCKS_VERSION = 0.5.0
+
 # Core rocks system variables
 ROCKS_SOURCE = $(shell git config --get rocks.source 2>/dev/null)
 
