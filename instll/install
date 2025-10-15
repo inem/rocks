@@ -3,6 +3,15 @@
 # Initialize project with makefiles
 # Usage: curl -sSL <URL>/install | bash
 
+# Check if we're in a git repository
+if [ ! -d ".git" ]; then
+    echo "❌ This directory is not a git repository"
+    echo "   Rocks system requires git to function properly"
+    echo "   Please run: git init"
+    echo "   Or navigate to an existing git repository"
+    exit 1
+fi
+
 echo "🚀 Initializing project with makefiles..."
 
 # Configure all user settings at once
