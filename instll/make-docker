@@ -7,7 +7,7 @@ REGISTRY = $(shell \
 	elif echo "$(GIT_URL)" | grep -q "gitlab.com"; then \
 		echo "registry.gitlab.com/$(GIT_REPO)"; \
 	fi)
-IMAGE_NAME = $(shell echo "$(GIT_REPO)" | sed 's/\//-/g' | sed 's/\./-/g')
+IMAGE_NAME = $(shell echo "$(GIT_REPO)" | sed 's/\//-/g' | sed 's/\./-/g' | tr '[:upper:]' '[:lower:]')
 IMAGE_TAG = latest
 
 build:
