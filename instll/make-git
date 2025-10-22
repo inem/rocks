@@ -4,12 +4,6 @@ BRANCH := $(shell git rev-parse --abbrev-ref HEAD)
 branch:
 	git checkout $(ARGS) > /dev/null 2>&1 || git checkout -b $(ARGS)
 
-staging:
-	git checkout staging
-
-develop:
-	git checkout develop
-
 new:
 	git checkout $(ARGS) || git checkout -b $(ARGS)
 
@@ -18,9 +12,6 @@ stash:
 
 unstash:
 	git stash apply
-
-master:
-	@ git status
 
 history:
 	git log
@@ -72,18 +63,16 @@ unrebase:
 fetch:
 	git fetch
 
-commit:
-	git commit -m "..."
-
-commit!:
-	git commit -m "..."
-	git push origin $(BRANCH)
-
-...:
-	git add .
-	git commit -m "..."
-
 git-info:
-	@echo "=== Git Configuration ==="
 	@echo "BRANCH: $(BRANCH)"
 	@echo "GIT_URL: $(shell git remote get-url origin 2>/dev/null)"
+
+
+# To be used with https://github.com/inem/dot-commit :
+
+commit: # Commits staged changes 
+	git commit -m "."
+
+commit!: # Commits staged changes 
+	git commit -m "." 
+	git push origin $(BRANCH)
