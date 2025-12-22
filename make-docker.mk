@@ -1,13 +1,20 @@
 # Docker-specific variables
-GIT_REPO = $(shell git remote get-url origin | sed -E 's/.*[\/:]([^\/]+\/[^\/]+)\.git$$/\1/' | sed 's/\.git$$//')
 GIT_URL = $(shell git remote get-url origin)
+GIT_REPO = $(shell \
+	if echo "$(GIT_URL)" | grep -q "gitlab.com"; then \
+		echo "$(GIT_URL)" | sed -E 's/.*gitlab\.com[\/:](.+)\.git$$/\1/' | sed 's/\.git$$//'; \
+	elif echo "$(GIT_URL)" | grep -q "github.com"; then \
+		echo "$(GIT_URL)" | sed -E 's/.*github\.com[\/:](.+)\.git$$/\1/' | sed 's/\.git$$//'; \
+	else \
+		echo "$(GIT_URL)" | sed -E 's/.*[\/:]([^\/]+\/[^\/]+)\.git$$/\1/' | sed 's/\.git$$//'; \
+	fi)
 REGISTRY = $(shell \
 	if echo "$(GIT_URL)" | grep -q "github.com"; then \
 		echo "ghcr.io/$(GIT_REPO)"; \
 	elif echo "$(GIT_URL)" | grep -q "gitlab.com"; then \
 		echo "registry.gitlab.com/$(GIT_REPO)"; \
 	fi)
-IMAGE_NAME = $(shell echo "$(GIT_REPO)" | sed 's/\//-/g' | sed 's/\./-/g')
+IMAGE_NAME = $(shell echo "$(GIT_REPO)" | sed 's/\//-/g' | sed 's/\./-/g' | tr '[:upper:]' '[:lower:]')
 IMAGE_TAG = latest
 
 build:
